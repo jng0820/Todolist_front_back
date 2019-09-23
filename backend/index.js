@@ -11,7 +11,7 @@ var get = require('./routes/get');
 var post = require('./routes/post');
 var put = require('./routes/put');
 var del = require('./routes/delete');
-app.use('/api',[get, post(app), put, del]);
+app.use('/api',[get, post, put, del]);
 
 app.listen(port,()=>{
     console.log("WAS port: " + port + " connected!")

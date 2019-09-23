@@ -2,17 +2,17 @@ var dbconnect = require('./dbconnect');
 
 
 function DBUse() {
-    this.getAll = function(request, response) {
+    this.use = function(request, response, qry) {
         dbconnect.getConnection(function(conn) {
-            conn.query('SELECT * FROM todolist')
+            conn.query(qry)
                 .then((results) => {
                     var output = {};
                     output.datas = results;
-                    if(results.length){
-                        dbconnect.sendJSON(response, 200, output);
+                    if(results.length == 0 || output.datas.affectedRows == 0){
+                        dbconnect.sendJSON(response, 404, '');
                     }
                     else{
-                        dbconnect.sendJSON(response, 404, '');
+                        dbconnect.sendJSON(response, 200, output);
                     }
                 })
                 .then((res) => {
@@ -20,29 +20,6 @@ function DBUse() {
                 })
                 .catch(err => {
                     //handle error
-                    console.log(err);
-                    conn.end();
-                })
-        });
-    }
-    this.gettodo = function(request, response){
-        dbconnect.getConnection(function(conn) {
-            conn.query('SELECT * FROM todolist WHERE TODO_IDX ='+request.params.id)
-                .then((results) => {
-                    var output = {};
-                    output.datas = results;
-                    if(results.length){
-                        dbconnect.sendJSON(response, 200, output);
-                    }
-                    else{
-                        dbconnect.sendJSON(response, 404, '');
-                    }
-                    
-                })
-                .then((res) => {
-                    conn.end();
-                })
-                .catch(err => {
                     console.log(err);
                     conn.end();
                 })

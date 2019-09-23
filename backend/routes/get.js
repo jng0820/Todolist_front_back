@@ -1,13 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var controller = require('../db/dbhelper');
+const express = require('express');
+const router = express.Router();
+const controller = require('../db/dbhelper');
 
 router.get('', (req, res)=>{
-    controller.getAll(req,res);
+    var qry = "SELECT * FROM todolist";
+    controller.use(req,res,qry);
 });
 
 router.get('/:id', (req, res)=>{
-    controller.gettodo(req,res);
+    var qry = "SELECT * FROM todolist WHERE TODO_IDX = " + req.params.id;
+    controller.use(req,res,qry);
 });
 
 module.exports = router;

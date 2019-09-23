@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var dbHelper = require('../db/dbconnect');
+const express = require('express');
+const router = express.Router();
+const controller = require('../db/dbhelper');
 
 router.put('', (req, res)=>{
     var data = {

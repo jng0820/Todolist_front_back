@@ -3,15 +3,15 @@ const app = express();
 const port = 8080;
 
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 var get = require('./routes/get');
 var post = require('./routes/post');
 var put = require('./routes/put');
 var del = require('./routes/delete');
-app.use('/api',[get, post, put, del]);
+app.use('/api',[get, post(app), put, del]);
 
 app.listen(port,()=>{
     console.log("WAS port: " + port + " connected!")

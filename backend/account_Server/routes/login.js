@@ -8,6 +8,7 @@ const KakaoStrategy = require('passport-kakao').Strategy;
 const passport = require('passport') //passport module add
   , LocalStrategy = require('passport-local').Strategy;
 
+  const secret_config = require('../db/config');
 
 passport.serializeUser(function (user, done) {
 done(null, user)
@@ -114,7 +115,9 @@ passport.use(new KakaoStrategy({
 
 router.get('/naver',
   passport.authenticate('naver')
-);
+,(req,res)=>{
+  console.log("dd");
+})
 
 router.get('/naver/callback',
   passport.authenticate('naver', {
@@ -133,3 +136,11 @@ router.get('/kakao/callback',
     failureRedirect: '/login'
   })
 );
+router.get("/123", (req ,res)=>{
+  res.jsonp('123');
+});
+router.get("", (req ,res)=>{
+    res.jsonp('123');
+});
+
+module.exports = router;

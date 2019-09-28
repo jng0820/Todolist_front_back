@@ -4,9 +4,6 @@ const port = 3000;
 const bodyParser = require('body-parser');
 
 
-const passport = require('passport') //passport module add
-  , LocalStrategy = require('passport-local').Strategy;
-const cookieSession = require('cookie-session');
 const flash = require('connect-flash'); 
 
 app.use(bodyParser.json());

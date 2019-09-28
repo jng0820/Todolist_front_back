@@ -9,10 +9,10 @@ function DBUse() {
                     var output = {};
                     output.datas = results;
                     if(results.length == 0 || output.datas.affectedRows == 0){
-                        dbconnect.sendJSON(response, 404, '');
+                        return output;
                     }
                     else{
-                        dbconnect.sendJSON(response, 200, output);
+                        return null;
                     }
                 })
                 .then((res) => {
@@ -22,6 +22,7 @@ function DBUse() {
                     //handle error
                     console.log(err);
                     conn.end();
+                    return null;
                 })
         });
     }

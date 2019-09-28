@@ -9,13 +9,13 @@ module.exports = (function(){
         },
         federation : {
             naver : {
-              client_id : '11',
-              secret_id : '11',
-              callback_url : '/auth/login/naver/callback'
+              client_id : 'yEo7Uc0S3m5JGm41JWPw',
+              secret_id : 'diGVWPlEyh',
+              callback_url : '/login/naver/callback'
             },
             kakao : {
-              client_id : '11',
-              callback_url : '/auth/login/kakao/callback'
+              client_id : '74a6a0f36b8f78c4ef3e15a51d4ee042',
+              callback_url : '/login/kakao/callback'
             }
         }
     }

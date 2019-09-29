@@ -29,9 +29,9 @@ passport.use(new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
   }, function (req, username, password, done) {
-        var qryStr = "SELECT * FROM User WHERE USER_ID = `" + username+"`;";
-        var data = controller.use(qryStr, req, res);
-        if(data != null){
+        var qrystr = `SELECT * FROM User WHERE User_id = "`+ info.auth_id + `";`;
+        controller.use(qrystr).then(function(data){
+          if(data != null){
             if(bcrypt.compareSync(password, data[0].password)){
                 console.log("로그인 성공");
                 return done(null, {
@@ -48,30 +48,33 @@ passport.use(new LocalStrategy({
             console.log("사용자가 존재하지 않습니다.")
             return done(false, null);
         }
+      });
     }
 ));
 
 function loginByThirdparty(info, done) {
     console.log('process : ' + info.auth_type);
     
-    var qrystr = "SELECT * FROM User WHERE User_id = `"+ info.auth_id + "`;";
-    var data = controller.use(qrystr, req, res);
-    if(data != null){
+    var qrystr = `SELECT * FROM User WHERE User_id = "`+ info.auth_id + `";`;
+    controller.use(qrystr).then(function (data){
+      if(data != null){
         done(null, {
             'user_id': data[0].user_id,
             'nickname': data[0].nickname
         });
-    }
-    else{
-        var qrystr = "INSERT INTO User set User_id = `"+ info.auth_id +"`, NICKNAME = `"+ info.auth_name +`;`;
-        var answer = controller.use(qrystr);
-        if(answer) {
-            done(null,{
-                'user_id' : info.auth_id,
-                'nickname' : info.auth_name
-            });
-        }
-    }
+      }
+      else{
+          var qrystr = `INSERT INTO User set User_id = "`+ info.auth_id +`", NICKNAME = "`+ info.auth_name +`";`;
+          controller.use(qrystr).then(function(data){
+            if(data) {
+              done(null,{
+                  'user_id' : info.auth_id,
+                  'nickname' : info.auth_name
+              });
+            }
+          })
+      }
+    });
 }
 
 passport.use(new NaverStrategy({
@@ -115,9 +118,7 @@ passport.use(new KakaoStrategy({
 
 router.get('/naver',
   passport.authenticate('naver')
-,(req,res)=>{
-  console.log("dd");
-})
+);
 
 router.get('/naver/callback',
   passport.authenticate('naver', {
@@ -136,11 +137,6 @@ router.get('/kakao/callback',
     failureRedirect: '/login'
   })
 );
-router.get("/123", (req ,res)=>{
-  res.jsonp('123');
-});
-router.get("", (req ,res)=>{
-    res.jsonp('123');
-});
+
 
 module.exports = router;

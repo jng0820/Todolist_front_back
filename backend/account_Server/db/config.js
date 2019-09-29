@@ -5,7 +5,7 @@ module.exports = (function(){
             port: 3306,
             user: "root",
             password: "0820",
-            database: "user"
+            database: "todolist"
         },
         federation : {
             naver : {

@@ -52,29 +52,28 @@ passport.use(new LocalStrategy({
     }
 ));
 
-function loginByThirdparty(info, done) {
+async function loginByThirdparty(info, done) {
     console.log('process : ' + info.auth_type);
     
     var qrystr = `SELECT * FROM User WHERE User_id = "`+ info.auth_id + `";`;
-    controller.use(qrystr).then(function (data){
-      if(data != null){
-        done(null, {
-            'user_id': data[0].user_id,
-            'nickname': data[0].nickname
-        });
-      }
-      else{
-          var qrystr = `INSERT INTO User set User_id = "`+ info.auth_id +`", NICKNAME = "`+ info.auth_name +`";`;
-          controller.use(qrystr).then(function(data){
-            if(data) {
-              done(null,{
-                  'user_id' : info.auth_id,
-                  'nickname' : info.auth_name
-              });
-            }
-          })
-      }
-    });
+    var data = await controller.use(qrystr);
+    if(data != null){
+      done(null, {
+          'user_id': data.datas[0].user_id,
+          'nickname': data.datas[0].nickname
+      });
+    }
+    else{
+        var qrystr = `INSERT INTO User values("`+ info.auth_id +`",null,null,"`+ info.auth_name +`");`;
+        var input_data = controller.use(qrystr)
+          if(input_data) {
+            done(null,{
+                'user_id' : info.auth_id,
+                'nickname' : info.auth_name
+            });
+          }
+    }
+    
 }
 
 passport.use(new NaverStrategy({
@@ -122,7 +121,7 @@ router.get('/naver',
 
 router.get('/naver/callback',
   passport.authenticate('naver', {
-    successRedirect: '/',
+    successRedirect: '/login',
     failureRedirect: '/login'
   })
 );
@@ -133,10 +132,14 @@ router.get('/kakao',
   
 router.get('/kakao/callback',
   passport.authenticate('kakao', {
-    successRedirect: '/',
+    successRedirect: '/login',
     failureRedirect: '/login'
   })
 );
 
+router.get('/',(req,res)=>{
+  var a = req.session;
+  console.log(a);
+})
 
 module.exports = router;

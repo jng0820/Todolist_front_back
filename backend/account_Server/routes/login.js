@@ -11,11 +11,11 @@ const passport = require('passport') //passport module add
   const secret_config = require('../db/config');
 
 passport.serializeUser(function (user, done) {
-done(null, user)
+  done(null, user);
 });
 
 passport.deserializeUser(function (user, done) {
-done(null, user);
+  done(null, user);
 });
   
 var isAuthenticated = function (req, res, next) {
@@ -32,11 +32,11 @@ passport.use(new LocalStrategy({
         var qrystr = `SELECT * FROM User WHERE User_id = "`+ info.auth_id + `";`;
         controller.use(qrystr).then(function(data){
           if(data != null){
-            if(bcrypt.compareSync(password, data[0].password)){
+            if(bcrypt.compareSync(password, data.datas[0].password)){
                 console.log("로그인 성공");
                 return done(null, {
-                    user_id: data[0].user_id,
-                    nickname: data[0].nickname
+                    user_id: data.datas[0].USER_ID,
+                    nickname: data.datas[0].NICKNAME
                 });
             }
             else{
@@ -59,8 +59,8 @@ async function loginByThirdparty(info, done) {
     var data = await controller.use(qrystr);
     if(data != null){
       done(null, {
-          'user_id': data.datas[0].user_id,
-          'nickname': data.datas[0].nickname
+          'user_id': data.datas[0].USER_ID,
+          'nickname': data.datas[0].NICKNAME
       });
     }
     else{
@@ -138,8 +138,8 @@ router.get('/kakao/callback',
 );
 
 router.get('/',(req,res)=>{
-  var a = req.session;
-  console.log(a);
+  console.log("session: "+req.session.passport.user);
+  res.send(200,req.session.passport.user);
 })
 
 module.exports = router;

@@ -21,7 +21,7 @@ passport.deserializeUser(function (user, done) {
 var isAuthenticated = function (req, res, next) {
     if (req.isAuthenticated())
       return next();
-    res.send(404);
+    res.send(401);
 };
 
 passport.use(new LocalStrategy({
@@ -60,16 +60,18 @@ async function loginByThirdparty(info, done) {
     if(data != null){
       done(null, {
           'user_id': data.datas[0].USER_ID,
-          'nickname': data.datas[0].NICKNAME
+          'nickname': data.datas[0].NICKNAME,
+          'platform' : info.auth_type
       });
     }
     else{
         var qrystr = `INSERT INTO User values("`+ info.auth_id +`",null,null,"`+ info.auth_name +`");`;
-        var input_data = controller.use(qrystr)
+        var input_data = await controller.use(qrystr)
           if(input_data) {
             done(null,{
                 'user_id' : info.auth_id,
-                'nickname' : info.auth_name
+                'nickname' : info.auth_name,
+                'platform' : info.auth_type
             });
           }
     }
@@ -86,7 +88,8 @@ passport.use(new NaverStrategy({
 
     console.log('Naver login info');
     console.info(_profile);
-
+    accTkn = accessToken;
+    rfTkn = refreshToken;
     loginByThirdparty({
       'auth_type': 'naver',
       'auth_id': _profile.id,
@@ -105,7 +108,8 @@ passport.use(new KakaoStrategy({
     var _profile = profile._json;
     console.log('Kakao login info');
     console.info(_profile);
-
+    accTkn = accessToken;
+    rfTkn = refreshToken;
     loginByThirdparty({
       'auth_type': 'kakao',
       'auth_id': _profile.id,
@@ -114,6 +118,7 @@ passport.use(new KakaoStrategy({
     }, done);
   }
 ));
+// 토큰 발급
 
 router.get('/naver',
   passport.authenticate('naver')
@@ -137,9 +142,12 @@ router.get('/kakao/callback',
   })
 );
 
-router.get('/',(req,res)=>{
-  console.log("session: "+req.session.passport.user);
-  res.send(200,req.session.passport.user);
+// router.get('/refresh',(req,res))=>{
+  
+// }
+
+router.get('/',isAuthenticated,(req,res)=>{
+  res.send(200,req.user);
 })
 
 module.exports = router;

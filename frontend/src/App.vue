@@ -1,18 +1,23 @@
 <template>
   <div id="app">
-    <h2>Hello</h2>
-    <img alt="Vue logo" src="./assets/logo.png">
-    <TodoList></TodoList>
+    <Login v-if="!loggedIn"></Login>
+    <TodoList v-if="loggedIn"></TodoList>
   </div>
 </template>
 
 <script>
 import TodoList from './components/table.vue'
-
+import Login from './components/Login.vue'
 export default {
   name: 'app',
   components: {
-    TodoList
+    TodoList,
+    Login
+  },
+  data() {
+    return{
+      loggedIn : false
+    }
   }
 }
 </script>

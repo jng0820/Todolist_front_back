@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <button v-on:click="logout">로그아웃</button>
+    <button v-if="loggedIn" v-on:click="logout">로그아웃</button>
     <Login v-if="!loggedIn"></Login>
     <TodoList v-if="loggedIn"></TodoList>
   </div>
@@ -9,21 +9,29 @@
 <script>
 import TodoList from './components/table.vue'
 import Login from './components/Login.vue'
+import axios from 'axios'
+import store from './store/index'
 export default {
   name: 'app',
   components: {
     TodoList,
     Login
   },
-  data() {
-    return{
-      loggedIn : false
-    }
-  },
   methods : {
     logout : function(){
-      this.$store.dispatch('LOGOUT');
+      store.dispatch('LOGOUT');
     }
+  },
+  computed: {
+    loggedIn(){
+      return store.getters.getloggedIn;
+    }
+  },
+  mounted(){
+    axios.get("http://localhost:8000/login").then(response => {
+        if(response.data != null)
+        store.dispatch('LOGIN',response.data);
+    });
   }
 }
 </script>

@@ -46,7 +46,7 @@
         padding: 15px;
     }
     .mainTable {
-        width: 50%;
+        width: 75%;
         margin: auto;
     }
 </style>

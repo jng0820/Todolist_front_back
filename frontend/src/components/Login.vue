@@ -2,46 +2,50 @@
     <div class="Login">
         <img src="../assets/naver.png" @click="naver" />
         <img src="../assets/kakao.png" @click="kakao" />
-        <LoginModal></LoginModal>
+        <input />
     </div>
 </template>
 
 <script>
+import JQuery from 'jquery'
 import axios from 'axios';
-import LoginModal from '../modal/login'
+import store from '../store/index'
+
   export default {
     name: 'Login',
-    components:{
-        LoginModal
+    data() {
+        return{
+            popup_window : {}
+        }
+    },
+    mounted(){
+        JQuery(document).ready(function(){
+            JQuery("input").on("propertychange change",function(){
+                axios.get("http://localhost:8000/login").then(response => {
+                    store.dispatch('LOGIN',response.data);
+                });
+            });
+        });
     },
     methods: {
         naver: function(){
-            var value = window.open("http://localhost:8000/login/naver","네이버 로그인","width=500px,height=500px");
-            axios.get(value.location.href).then(response => {
-                console.log(response.data);
-            });
-            // this.$store.dispatch('LOGIN_NAVER');
-            // console.log("aa")
+            window.open("http://localhost:8000/login/naver","네이버 로그인","width=500px,height=500px");
         },
         kakao: function(){
-            var value = window.open("http://localhost:8000/login/kakao","카카오 로그인","width=500px,height=500px");
-            axios.get(value.location.href).then(response => {
-                console.log(response.data);
-            });
-            // console.log("cc");
+            window.open("http://localhost:8000/login/kakao","카카오 로그인","width=500px,height=500px");
         }
     }
   }
 </script>
 
 <style scoped>
-    .Login {
-        width: 450px;
+    img {
+        width : 200px;
         margin: 0 auto;
-    }
-    img{
-        margin: 0 auto 20px;
+        margin-bottom: 20px;
         display: block;
-        height: 45px;
+    }
+    input {
+        display: none;
     }
 </style>

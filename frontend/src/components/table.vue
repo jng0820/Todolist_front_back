@@ -27,7 +27,7 @@
     props: {
       todoList: Array
     },
-    function:{
+    methods:{
         see : function(idx){
             return idx;
         },

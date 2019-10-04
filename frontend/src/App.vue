@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <button v-on:click="logout">로그아웃</button>
     <Login v-if="!loggedIn"></Login>
     <TodoList v-if="loggedIn"></TodoList>
   </div>
@@ -17,6 +18,11 @@ export default {
   data() {
     return{
       loggedIn : false
+    }
+  },
+  methods : {
+    logout : function(){
+      this.$store.dispatch('LOGOUT');
     }
   }
 }

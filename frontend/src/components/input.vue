@@ -13,7 +13,7 @@
                     마감일 : <input type="datetime-local" v-model="date">
                 </span>
                 <span>
-                    우선순위 : <input type="text" v-model="priority" placeholder="1부터 10까지">
+                    우선순위 : <input type="text" v-model="priority" placeholder="0부터 9까지" maxlength="1">
                 </span>
                 <button type="submit">입력</button>
             </fieldset>
@@ -50,7 +50,14 @@ export default {
         margin: 0 auto;
     }
     .table_input span{
+        float: left;
         display: block;
         margin-bottom: 15px;
+    }
+    fieldset {
+        padding: 10px 30px 10px 30px;
+    }
+    input, textarea{
+        width: 200px;
     }
 </style>

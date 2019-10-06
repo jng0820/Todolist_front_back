@@ -10,8 +10,8 @@ var isAuthenticated = function (req, res, next) {
   
 router.post('',isAuthenticated, (req, res)=>{
     var input_data = req.body;
-    var qry = "INSERT INTO todolist VALUES(null"+`,"`+input_data.title+`","`+input_data.content+`",now()`+//input_data.date+
-    `,`+input_data.priority+`,"`+req.user.user_id+`")`;
+    var qry = "INSERT INTO todolist VALUES(null"+`,"`+input_data.title+`","`+input_data.content+`","`+input_data.date+
+    `",`+input_data.priority+`,"`+req.user.user_id+`")`;
     controller.use(req,res,qry);
 });
 

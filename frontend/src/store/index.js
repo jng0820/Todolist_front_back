@@ -37,11 +37,14 @@ export default new Vuex.Store({
         },
         TODOGET ({commit}) {
             return axios.get(`${todoHost}/`)
-                .then(({data}) => commit('TODOGET',data))
+                .then((data) => commit('TODOGET',data.data.datas))
         },
         TODOGETONE ({commit},data) {
             return axios.get(`${todoHost}/${data}`)
-                .then(({data}) => commit('TODOGET',data))
+                .then((data) => commit('TODOGET',data.data.datas))
+        },
+        TODODELETE (_, IDX) {
+            axios.delete(`${todoHost}/${IDX}`);
         }
     },
     getters : {

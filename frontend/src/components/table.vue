@@ -15,11 +15,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, idx) in todoList" :key="item.idx">
-                <td><a href="javasciprt:;" v-on:click="see(idx)">{item.title}</a></td>
-                <td>{item.date}</td>
-                <td><a href="javasciprt:;" v-on:click="modify(idx)">수정하기</a></td>
-                <td><a href="javasciprt:;" v-on:click="remove(idx)">삭제하기</a></td>
+            <tr v-for="(item, TODO_IDX) in todoList" :key="item.TODO_IDX">
+                <td><a href="javasciprt:;" v-on:click="see(TODO_IDX)">{{item.TITLE}}</a></td>
+                <td>{{item.EXPIRED_DATE}}</td>
+                <td><a href="javasciprt:;" v-on:click="modify(TODO_IDX)">수정하기</a></td>
+                <td><a href="javasciprt:;" v-on:click="remove(TODO_IDX,title)">삭제하기</a></td>
             </tr>
             </tbody>
         </table>
@@ -38,6 +38,9 @@ import TodoInput from './input.vue'
     components: {
         TodoInput
     },
+    mounted(){
+        this.$store.dispatch("TODOGET");
+    },
     methods:{
         see : function(idx){
             return idx;
@@ -45,8 +48,10 @@ import TodoInput from './input.vue'
         modify : function(idx){
             return idx;
         },
-        remove : function(idx){
-            return idx;
+        remove : function(idx,title){
+            if(confirm(title + "을 삭제하시겠습니까?")){
+                this.$store.dispatch("TODODELETE",this.todoList[idx].TODO_IDX);
+            }
         }
     }
   }
@@ -58,6 +63,15 @@ import TodoInput from './input.vue'
         margin: 0 auto;
     }
     table{
-        margin: 0 auto;
+        margin: 20px auto;
+        border-collapse: collapse;
     }
+    td, th {
+        border: 1px solid black;
+    }
+    th {
+        background-color: green;
+        color: white;
+    }
+
 </style>

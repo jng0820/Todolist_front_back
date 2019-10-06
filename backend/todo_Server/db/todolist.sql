@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS todolist.Todolist(
 	CONTENT MEDIUMTEXT, 
 	EXPIRED_DATE datetime, 
 	PRIORITY int, 
-	USER varchar(128),
+	USER varchar(256),
 	PRIMARY KEY (TODO_IDX) 
 );

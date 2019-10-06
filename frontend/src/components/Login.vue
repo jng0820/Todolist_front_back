@@ -41,8 +41,7 @@ import store from '../store/index'
 <style scoped>
     img {
         width : 200px;
-        margin: 0 auto;
-        margin-bottom: 20px;
+        margin: 0 auto 10px auto;
         display: block;
     }
     input {

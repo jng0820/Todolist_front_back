@@ -5,15 +5,18 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const flash = require('connect-flash'); 
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(session({
-  'secret': '343ji43j4n3jn4jk3n'
-}))
+app.use(cookieSession({
+  keys: ['node_yun'],
+  cookie: {
+    maxAge: 100 * 60 * 60
+  }
+}));
 
 app.use(flash());
 app.use(passport.initialize());

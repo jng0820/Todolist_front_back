@@ -1,6 +1,11 @@
 <template>
     <div class="mainTable">
+        <todo-input></todo-input>
         <table class="table">
+            <caption class="blind">todolist 테이블</caption>
+            <colgroup>
+                <col width ="25%" span="4">
+            </colgroup>
             <thead>
             <tr>
                 <th>오늘 할 일</th>
@@ -22,10 +27,16 @@
 </template>
 
 <script>
+import TodoInput from './input.vue'
   export default {
     name: 'TodoList',
-    props: {
-      todoList: Array
+    computed:{
+        todoList(){
+            return this.$store.getters.getTodo;
+        }
+    },
+    components: {
+        TodoInput
     },
     methods:{
         see : function(idx){
@@ -42,11 +53,11 @@
 </script>
 
 <style scoped>
-    .mainTitle {
-        padding: 15px;
-    }
     .mainTable {
-        width: 75%;
-        margin: auto;
+        width: 420px;
+        margin: 0 auto;
+    }
+    table{
+        margin: 0 auto;
     }
 </style>

@@ -4,7 +4,6 @@ import store from './store/index'
 import 'expose-loader?$!expose-loader?jQuery!jquery'
 
 Vue.config.productionTip = false
-
 new Vue({
   render: h => h(App),
   store

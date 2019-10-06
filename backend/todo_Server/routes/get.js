@@ -2,18 +2,18 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../db/dbhelper');
 
-router.get('', (req, res)=>{
-    if(req.user == null){
-        res.send(401);
-    }
-    var qry = "SELECT * FROM todolist";
+var isAuthenticated = function (req, res, next) {
+    if (req.isAuthenticated())
+      return next();
+    res.send(401);
+};
+
+router.get('',isAuthenticated, (req, res)=>{
+    var qry = `SELECT * FROM todolist where = "` + req.user.user_id+ `"`;
     controller.use(req,res,qry);
 });
 
-router.get('/:id', (req, res)=>{
-    if(req.user == null){
-        res.send(401);
-    }
+router.get('/:id',isAuthenticated, (req, res)=>{
     var qry = "SELECT * FROM todolist WHERE TODO_IDX = " + req.params.id;
     controller.use(req,res,qry);
 });

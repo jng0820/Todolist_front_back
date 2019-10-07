@@ -4,7 +4,8 @@
         <table class="table">
             <caption class="blind">todolist 테이블</caption>
             <colgroup>
-                <col width ="25%" span="4">
+                <col width ="40%" span="2">
+                <col width ="10%" span="2">
             </colgroup>
             <thead>
             <tr>
@@ -16,41 +17,56 @@
             </thead>
             <tbody>
             <tr v-for="(item, TODO_IDX) in todoList" :key="item.TODO_IDX">
-                <td><a href="javasciprt:;" v-on:click="see(TODO_IDX)">{{item.TITLE}}</a></td>
+                <td><a href="javasciprt:;" v-on:click="see(item.TODO_IDX)">{{item.TITLE}}</a></td>
                 <td>{{item.EXPIRED_DATE}}</td>
-                <td><a href="javasciprt:;" v-on:click="modify(TODO_IDX)">수정하기</a></td>
-                <td><a href="javasciprt:;" v-on:click="remove(TODO_IDX,title)">삭제하기</a></td>
+                <td><a href="javasciprt:;" v-on:click="modify(item.TODO_IDX)">수정</a></td>
+                <td><a href="javasciprt:;" v-on:click="remove(item.TODO_IDX,item.TITLE)">삭제</a></td>
             </tr>
             </tbody>
         </table>
+        <modal v-if="modal_view"></modal>
     </div>
 </template>
 
 <script>
 import TodoInput from './input.vue'
+import modal from './modal/modal.vue'
   export default {
     name: 'TodoList',
     computed:{
         todoList(){
             return this.$store.getters.getTodo;
+        },
+        modal_view(){
+            return this.$store.getters.getModal;
         }
     },
     components: {
-        TodoInput
+        TodoInput, modal
     },
     mounted(){
         this.$store.dispatch("TODOGET");
     },
     methods:{
         see : function(idx){
-            return idx;
+            this.$store.dispatch("TODOGETONE",idx);
+            this.$store.dispatch("modalview",[true,true]);
         },
         modify : function(idx){
-            return idx;
+            this.$store.dispatch("TODOGETONE",idx);
+            this.$store.dispatch("modalview",[true,false]);
         },
         remove : function(idx,title){
             if(confirm(title + "을 삭제하시겠습니까?")){
-                this.$store.dispatch("TODODELETE",this.todoList[idx].TODO_IDX);
+                this.$store.dispatch("TODODELETE",idx).then(resolve => {
+                    if(resolve == 200){
+                        alert("삭제 완료!");
+                        location.reload();
+                    }
+                    else{
+                        alert("에러 발생, 다시 시도하여 주십시오.");
+                    }
+                });
             }
         }
     }
@@ -63,7 +79,8 @@ import TodoInput from './input.vue'
         margin: 0 auto;
     }
     table{
-        margin: 20px auto;
+        margin: 20px 0 0 0;
+        width: 100%;
         border-collapse: collapse;
     }
     td, th {

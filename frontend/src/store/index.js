@@ -9,7 +9,9 @@ var todoHost = "http://localhost:3000/api";
 export default new Vuex.Store({
     state: {
         todolist : [],
-        loggedIn : false
+        loggedIn : false,
+        modal_view : false,
+        isview : false
     },
     mutations: {
         LOGIN (state, data){
@@ -22,6 +24,10 @@ export default new Vuex.Store({
         },
         TODOGET (state, data){
             state.todolist = data;
+        },
+        MODALCHANGE (state, data){
+            state.modal_view = data[0];
+            state.modal_view = data[1];
         }
     },
     actions: {
@@ -29,11 +35,25 @@ export default new Vuex.Store({
             return commit('LOGIN', data);
         },
         LOGOUT ({commit}) {
-            return axios.get(`${loginHost}/logout`)
-                .then(({data}) => commit('LOGOUT', data))
+            axios.get(`${loginHost}/logout`)
+                .then(({data}) => {
+                    commit('LOGOUT', data);
+                    alert("로그아웃 되었습니다.");
+            })
+        },
+        REFRESH({commit}){
+            axios.get(`${loginHost}/refresh`).then(res =>{
+                if(res.status == 200){
+                    alert("연장되었습니다.");
+                }
+            })
         },
         TODOINPUT ({commit}, data) {
-            axios.post(`${todoHost}/`,data);
+            return new Promise((resolve,reject)=>{
+                axios.post(`${todoHost}/`,data).then(res=>{
+                    resolve(res.status);
+                });
+            })
         },
         TODOGET ({commit}) {
             return axios.get(`${todoHost}/`)
@@ -44,7 +64,21 @@ export default new Vuex.Store({
                 .then((data) => commit('TODOGET',data.data.datas))
         },
         TODODELETE (_, IDX) {
-            axios.delete(`${todoHost}/${IDX}`);
+            return new Promise((resolve,rej)=>{
+                axios.delete(`${todoHost}/${IDX}`).then(res=>{
+                    return resolve(res.status);
+                });
+            })
+        },
+        TODOMODIFY (_, data){
+            return new Promise((resolve,reject)=>{
+                axios.put(`${todoHost}/${data.TODO_IDX}`).then(res=>{
+                    return resolve(res.status);
+                })
+            })
+        },
+        MODALVIEW ({commit},data){
+            return commit('MODALCHANGE',data);
         }
     },
     getters : {
@@ -56,6 +90,12 @@ export default new Vuex.Store({
         },
         getTodo : function(state){
             return state.todolist;
+        },
+        getModal : function(state){
+            return state.modal_view;
+        },
+        getViewOrNot : function(state){
+            return state.isview;
         }
     }
 })

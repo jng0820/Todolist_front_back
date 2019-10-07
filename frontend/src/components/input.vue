@@ -28,18 +28,31 @@ export default {
             title: "",
             content: "",
             priority: null,
-            date: null
+            date: null,
         }
     },
     methods: {
         formSubmit : function(){
-            this.$store.dispatch('TODOINPUT',{
-                title : this.title,
-                content : this.content,
-                date : this.date,
-                priority : this.priority,
-                id : this.$store.getters.getID
-            })
+            if(String(Number(this.priority)) == 'NaN' || Number(this.priority) > 9 ){
+                alert("유효한 우선순위값을 입력해주세요.")
+            }
+            else{
+                this.$store.dispatch('TODOINPUT',{
+                    title : this.title,
+                    content : this.content,
+                    date : this.date,
+                    priority : this.priority,
+                    id : this.$store.getters.getID
+                }).then(resolve =>{
+                    if(resolve == 200){
+                        alert("입력 완료!");
+                        location.reload();
+                    }
+                    else{
+                        alert("에러 발생, 다시 시도하여 주십시오.");
+                    }
+                })
+            }
         }
     }
 }
@@ -58,6 +71,6 @@ export default {
         padding: 10px 30px 10px 30px;
     }
     input, textarea{
-        width: 200px;
+        width: 215px;
     }
 </style>

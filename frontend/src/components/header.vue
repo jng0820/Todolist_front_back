@@ -1,7 +1,8 @@
 <template>
     <div class="header">
         <a href="http://localhost:8080/">Todolist</a>
-        <button v-if="loggedIn" v-on:click="logout">로그아웃</button>
+        <a href="javascript:;" class="login" v-if="loggedIn" v-on:click="logout">로그아웃</a>
+        <a href="javascript:;" class="login" v-if="loggedIn" v-on:click="refresh">연장</a>
     </div>
 </template>
 
@@ -16,6 +17,9 @@
     methods: {
         logout : function(){
             this.$store.dispatch('LOGOUT');
+        },
+        refresh: function(){
+            this.$store.dispatch('REFRESH');
         }
     }
   }
@@ -30,14 +34,17 @@
     }
     .header > a {
         display: inline-block;
-        width: 70%;
+        width: 55%;
         height: 100%;
         line-height: 48px;
         color: white;
         text-decoration: none;
     }
-    .header button {
-        margin: 10px 5px 0 0;
+    .login {
+        font-size: 10px;
         float: right;
+        width:10% !important;
+        color: black;
+        font-weight: bold;
     }
 </style>

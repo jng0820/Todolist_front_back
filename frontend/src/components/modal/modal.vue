@@ -1,28 +1,30 @@
 <template>
     <div class="modal_view">
-        <div v-if="IsView">
-            <span>제목</span>
-            <span class="todo">{{todoList[0].title}}</span>
-            <span>내용</span>
-            <article class="todo">{{todoList[0].content}}</article>
-            <span>마감</span>
-            <span class="todo">{{todoList[0].date}}</span>
-            <span>우선순위</span>
-            <span class="todo">{{todoList[0].priority}}</span>
-            <button type="button" v-on:click="close()">닫기</button>
-        </div>
-        <div v-if="!IsView">
-            <span>제목</span>
-            <input class="todo" type="text" v-bind="todoList[0].title" />
-            <span>내용</span>
-            <textarea class="todo" type="text" v-bind="todoList[0].content"></textarea>
-            <span>마감</span>
-            <input class="todo" type="datetime-local" v-bind="todoList[0].date" />
-            <span>우선순위</span>
-            <input type="text" v-bind="todoList[0].priority" maxlength="1">
-            <div>
+        <div class="modal_content">
+            <div v-if="isView">
+                <span>제목</span>
+                <span class="todo">{{todoList[0].TITLE}}</span>
+                <span>내용</span>
+                <article class="todo">{{todoList[0].CONTENT}}</article>
+                <span>마감</span>
+                <span class="todo">{{todoList[0].EXPIRED_DATE}}</span>
+                <span>우선순위</span>
+                <span class="todo">{{todoList[0].PRIORITY}}</span>
                 <button type="button" v-on:click="close()">닫기</button>
-                <button type="button" v-on:click="modify()">수정</button>
+            </div>
+            <div v-if="!isView">
+                <span>제목</span>
+                <input class="todo" type="text" v-model="todoList[0].TITLE" />
+                <span>내용</span>
+                <textarea class="todo" type="text" v-model="todoList[0].CONTENT"></textarea>
+                <span>마감</span>
+                <input class="todo" type="datetime-local" v-model="todoList[0].EXPIRED_DATE" />
+                <span>우선순위</span>
+                <input class="todo" type="text" v-model="todoList[0].PRIORITY" maxlength="1">
+                <div>
+                    <button type="button" v-on:click="close()">닫기</button>
+                    <button type="button" v-on:click="modify()">수정</button>
+                </div>
             </div>
         </div>
     </div>
@@ -32,11 +34,11 @@
 export default {
     name: 'modal',
     computed: {
-        isView: function(){
-            return this.$store.getters.getViewOrNot;
-        },
         todoList(){
             return this.$store.getters.getTodo;
+        },
+        isView(){
+            return this.$store.getters.getViewOrNot;
         }
     },
     methods: {
@@ -66,8 +68,37 @@ export default {
 </script>
 
 <style scoped>
-    span, input, article {
+    .modal_view{
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .modal_content{
+        opacity: 1;
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        width: 300px;
+    }
+    span, input, article,textarea {
+        width: 100%;
         display: block;
         margin: 0 auto;
+    }
+    .todo{
+        border: 1px solid black;
+        text-align: center;
+    }
+    button{
+        margin: 20px 10px 0 10px;
     }
 </style>

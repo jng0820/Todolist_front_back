@@ -26,8 +26,8 @@ export default new Vuex.Store({
             state.todolist = data;
         },
         MODALCHANGE (state, data){
+            state.isview = data[1];
             state.modal_view = data[0];
-            state.modal_view = data[1];
         }
     },
     actions: {

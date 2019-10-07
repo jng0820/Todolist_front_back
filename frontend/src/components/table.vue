@@ -50,11 +50,11 @@ import modal from './modal/modal.vue'
     methods:{
         see : function(idx){
             this.$store.dispatch("TODOGETONE",idx);
-            this.$store.dispatch("modalview",[true,true]);
+            this.$store.dispatch("MODALVIEW",[true,true]);
         },
         modify : function(idx){
             this.$store.dispatch("TODOGETONE",idx);
-            this.$store.dispatch("modalview",[true,false]);
+            this.$store.dispatch("MODALVIEW",[true,false]);
         },
         remove : function(idx,title){
             if(confirm(title + "을 삭제하시겠습니까?")){

@@ -9,7 +9,7 @@ var isAuthenticated = function (req, res, next) {
 };
 
 router.get('',isAuthenticated, (req, res)=>{
-    var qry = `SELECT * FROM todolist where USER = "` + req.user.user_id+ `" ORDER BY EXPIRED_DATE ASC, PRIORITY DESC;`;
+    var qry = `SELECT * FROM todolist where USER = "` + req.user.user_id+ `" ORDER BY PRIORITY DESC, EXPIRED_DATE ASC;`;
     controller.use(req,res,qry);
 });
 

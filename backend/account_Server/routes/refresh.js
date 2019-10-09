@@ -48,7 +48,6 @@ router.get("",isAuthenticated,(req,res)=>{
         else{
             body = JSON.parse(body);
             req.session.ac = body.access_token;
-            console.log(req.session.ac);
             res.send(200,req.user);
         }
     });

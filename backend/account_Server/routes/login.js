@@ -39,7 +39,6 @@ router.get('/success',(req,res)=>{
 
 router.get('/',isAuthenticated,(req,res)=>{
   req.session.ac = req.user.ac;
-  console.log(req.session.ac);
   req.session.rf = req.user.rf;
   req.user.ac = req.user.rf = null;
   res.send(200,req.user);

@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const cors = require('cors');
 
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -10,7 +11,7 @@ const cookieSession = require('cookie-session');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-
+app.use(cors());
 app.use(cookieSession({
     keys: ['node_yun'],
     cookie: {

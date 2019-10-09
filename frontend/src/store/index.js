@@ -72,7 +72,7 @@ export default new Vuex.Store({
         },
         TODOMODIFY (_, data){
             return new Promise((resolve,reject)=>{
-                axios.put(`${todoHost}/${data.TODO_IDX}`).then(res=>{
+                axios.put(`${todoHost}/${data.idx}`,data).then(res=>{
                     return resolve(res.status);
                 })
             })

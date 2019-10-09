@@ -43,14 +43,15 @@ export default {
     },
     methods: {
         close: function(){
+            this.$store.dispatch("TODOGET");
             this.$store.dispatch("MODALVIEW",[false,false]);
         },
         modify: function(){
-            this.$store.dispatch('TODOINPUT',{
-                title : this.todoList[0].title,
-                content : this.todoList[0].content,
-                date : this.todoList[0].date,
-                priority : this.todoList[0].priority,
+            this.$store.dispatch('TODOMODIFY',{
+                title : this.todoList[0].TITLE,
+                content : this.todoList[0].CONTENT,
+                date : this.todoList[0].EXPIRED_DATE,
+                priority : this.todoList[0].PRIORITY,
                 id : this.$store.getters.getID,
                 idx : this.todoList[0].TODO_IDX
             }).then(resolve =>{

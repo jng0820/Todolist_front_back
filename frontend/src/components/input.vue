@@ -33,7 +33,7 @@ export default {
     },
     methods: {
         formSubmit : function(){
-            if(String(Number(this.priority)) == 'NaN' || Number(this.priority) > 9 ){
+            if(isNaN(Number(this.priority))|| Number(this.priority) > 9 ){
                 alert("유효한 우선순위값을 입력해주세요.")
             }
             else{

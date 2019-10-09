@@ -13,26 +13,28 @@ import store from '../store/index'
 
   export default {
     name: 'Login',
-    data() {
-        return{
-            popup_window : {}
-        }
-    },
-    mounted(){
-        JQuery(document).ready(function(){
-            JQuery("input").on("propertychange change",function(){
-                axios.get("http://localhost:8000/login").then(response => {
-                    store.dispatch('LOGIN',response.data);
-                });
-            });
-        });
-    },
     methods: {
         naver: function(){
-            window.open("http://localhost:8000/login/naver","네이버 로그인","width=500px,height=500px");
+            var popup_window = window.open("http://localhost:8000/login/naver","네이버 로그인","width=500px,height=500px");
+            var popupTick = setInterval(function() {
+                if (popup_window.closed) {
+                    clearInterval(popupTick);
+                    axios.get("http://localhost:8000/login").then(response => {
+                        store.dispatch('LOGIN',response.data);
+                    });
+                }
+            }, 500);
         },
         kakao: function(){
-            window.open("http://localhost:8000/login/kakao","카카오 로그인","width=500px,height=500px");
+            var popup_window = window.open("http://localhost:8000/login/kakao","카카오 로그인","width=500px,height=500px");
+            var popupTick = setInterval(function() {
+                if (popup_window.closed) {
+                    clearInterval(popupTick);
+                    axios.get("http://localhost:8000/login").then(response => {
+                        store.dispatch('LOGIN',response.data);
+                    });
+                }
+            }, 500);
         }
     }
   }

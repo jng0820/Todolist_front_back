@@ -32,9 +32,7 @@ router.get('/kakao/callback',
 );
 
 router.get('/success',(req,res)=>{
-  res.send(`<script> \
-            window.opener.$("input").trigger('change'); \
-            window.close();</script>`)
+  res.send(`<script>window.close();</script>`)
 })
 
 router.get('/',isAuthenticated,(req,res)=>{

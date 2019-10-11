@@ -20,4 +20,4 @@ RESTFul API를 통해 Todolist를 확인할 수 있게 하였고 Account Server�
 
 ## 2. Frontend - Vue JS
 
-Vue JS를 이용하여 구성한 Frontend 웹 Server와 WAS Server들은 모두 RESTFul API를 통해 통신하며 자료를 송/수신 할 수 있게 하였다.
+Vue JS를 이용하여 구성한 Frontend 웹 Server와 WAS Server들은 모두 REST API를 통해 통신하며 자료를 송/수신 할 수 있게 하였다.

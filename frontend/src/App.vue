@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted(){
-    axios.get("http://localhost:8000/login").then(response => {
+    axios.get("/auth/login").then(response => {
         if(response.data != null){
           store.dispatch('LOGIN',response.data);
         }

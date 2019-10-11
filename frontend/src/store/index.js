@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 Vue.use(Vuex)
-var loginHost = "http://localhost:8000";
-var todoHost = "http://localhost:3000/api";
+var loginHost = "/auth";
+var todoHost = "/api";
 
 export default new Vuex.Store({
     state: {
@@ -56,7 +56,7 @@ export default new Vuex.Store({
             })
         },
         TODOGET ({commit}) {
-            return axios.get(`${todoHost}/`)
+            return axios.get(`${todoHost}`)
                 .then((data) => commit('TODOGET',data.data.datas))
         },
         TODOGETONE ({commit},data) {

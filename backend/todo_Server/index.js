@@ -11,7 +11,10 @@ const cookieSession = require('cookie-session');
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  Credential: true,
+  origin: "http://localhost:8080"
+}));
 app.use(cookieSession({
     keys: ['node_yun'],
     cookie: {

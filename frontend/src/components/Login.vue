@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import JQuery from 'jquery'
 import axios from 'axios';
 import store from '../store/index'
 
@@ -15,22 +14,24 @@ import store from '../store/index'
     name: 'Login',
     methods: {
         naver: function(){
-            var popup_window = window.open("http://localhost:8000/login/naver","네이버 로그인","width=500px,height=500px");
+            var popup_window = window.open("/auth/login/naver","네이버 로그인","width=500px,height=500px");
             var popupTick = setInterval(function() {
                 if (popup_window.closed) {
                     clearInterval(popupTick);
-                    axios.get("http://localhost:8000/login").then(response => {
+                    axios.get("/auth/login",{ 
+                    }).then(response => {
                         store.dispatch('LOGIN',response.data);
                     });
                 }
             }, 500);
         },
         kakao: function(){
-            var popup_window = window.open("http://localhost:8000/login/kakao","카카오 로그인","width=500px,height=500px");
+            var popup_window = window.open("/auth/login/kakao","네이버 로그인","width=500px,height=500px");
             var popupTick = setInterval(function() {
                 if (popup_window.closed) {
                     clearInterval(popupTick);
-                    axios.get("http://localhost:8000/login").then(response => {
+                    axios.get("/auth/login",{ 
+                    }).then(response => {
                         store.dispatch('LOGIN',response.data);
                     });
                 }

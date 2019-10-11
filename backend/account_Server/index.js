@@ -11,7 +11,10 @@ const cookieSession = require('cookie-session');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  Credential: true,
+  origin: "http://localhost:8080/"
+}));
 
 app.use(cookieSession({
   keys: ['node_yun'],
@@ -28,9 +31,9 @@ var login = require('./routes/login');
 var logout = require('./routes/logout');
 var refresh = require('./routes/refresh');
 
-app.use('/login',login);
-app.use('/logout',logout);
-app.use('/refresh',refresh);
+app.use('/auth/login',login);
+app.use('/auth/logout',logout);
+app.use('/auth/refresh',refresh);
 app.listen(port,()=>{
     console.log("WAS port: " + port + " connected!")
 });

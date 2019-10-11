@@ -15,8 +15,8 @@ router.get('/naver',
 
 router.get('/naver/callback',
   passport.authenticate('naver', {
-    successRedirect: '/login/success',
-    failureRedirect: '/login'
+    successRedirect: '/auth/login/success',
+    failureRedirect: '/auth/login'
   })
 );
 
@@ -26,13 +26,13 @@ router.get('/kakao',
   
 router.get('/kakao/callback',
   passport.authenticate('kakao', {
-    successRedirect: '/login/success',
-    failureRedirect: '/login'
+    successRedirect: '/auth/login/success',
+    failureRedirect: '/auth/login'
   })
 );
 
 router.get('/success',(req,res)=>{
-  res.send(`<script>window.close();</script>`)
+  res.send(200,"<script>window.close()</script>");
 })
 
 router.get('/',isAuthenticated,(req,res)=>{

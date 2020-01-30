@@ -25,12 +25,9 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-var get = require('./routes/get');
-var post = require('./routes/post');
-var put = require('./routes/put');
-var del = require('./routes/delete');
+let todoController = require('./routes/todoController');
 
-app.use('/api',[get, post, put, del]);
+app.use('/api',todoController);
 
 passport.deserializeUser(function (user, done) {
   done(null, user);

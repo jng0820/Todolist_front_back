@@ -8,6 +8,7 @@ const passport = require('passport') //passport module add
 
 const secret_config = require('../db/config');
 
+
 passport.serializeUser(function (user, done) {
   done(null, user);
 });

@@ -27,9 +27,9 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-var login = require('./routes/login');
-var logout = require('./routes/logout');
-var refresh = require('./routes/refresh');
+let login = require('./routes/login');
+let logout = require('./routes/logout');
+let refresh = require('./routes/refresh');
 
 app.use('/auth/login',login);
 app.use('/auth/logout',logout);

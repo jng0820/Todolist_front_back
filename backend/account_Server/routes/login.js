@@ -2,12 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const passport_process = require('../services/passport_process');
-
-var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  res.send(401);
-};
+const isAuth = require('../services/isAuth');
 
 router.get('/naver',
   passport.authenticate('naver')
@@ -35,7 +30,7 @@ router.get('/success',(req,res)=>{
   res.send(200,"<script>window.close()</script>");
 })
 
-router.get('/',isAuthenticated,(req,res)=>{
+router.get('/',isAuth,(req,res)=>{
   req.session.ac = req.user.ac;
   req.session.rf = req.user.rf;
   req.user.ac = req.user.rf = null;
